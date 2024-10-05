@@ -71,21 +71,24 @@ public class LibroController {
             return new ResponseEntity<>("Libro no encontrado", HttpStatus.NOT_FOUND);
         }
     }
-
-    @DeleteMapping("/libros/{id}")
-    @ResponseBody
-    public ResponseEntity<String> eliminarLibroConInteger(@PathVariable Integer id) {
-        if (LibroRepository.existsById(id)) {
-            LibroRepository.deleteById(id);
-            return new ResponseEntity<>("Libro eliminado exitosamente", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Libro no encontrado", HttpStatus.NOT_FOUND);
-        }
-    }
+// borrar libro
+@DeleteMapping("/libros/{id}")
+@ResponseBody
+public ResponseEntity<String> eliminarLibro(@PathVariable int id) {
+    System.out.println("Intentando eliminar libro con ID: " + id);
     
+    if (LibroRepository.existsById(id)) {
+        LibroRepository.deleteById(id);
+        System.out.println("Libro eliminado: " + id);
+        return new ResponseEntity<>("Libro eliminado exitosamente", HttpStatus.OK);
+    } else {
+        System.out.println("Libro no encontrado: " + id);
+        return new ResponseEntity<>("Libro no encontrado", HttpStatus.NOT_FOUND);
+    }
+}
 
     // Obtener libro por título
-    @GetMapping("/libros/titulo/{titulo}")
+    @GetMapping("/libros/{titulo}")
     @ResponseBody
     public ResponseEntity<Libros> obtenerLibroPorTitulo(@PathVariable String titulo) {
         Optional<Libros> libro = LibroRepository.findByTitulo(titulo);
