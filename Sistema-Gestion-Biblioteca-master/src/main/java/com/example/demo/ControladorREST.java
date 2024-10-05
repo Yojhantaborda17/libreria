@@ -46,6 +46,11 @@ public class ControladorREST {
     public String registro() {
         return "registro";
     }
+    //recuperar contraseña
+    @GetMapping("/recuperarcontraseña")
+    public String recuperarcontraseña() {
+        return "recuperarcontraseña";
+    }
 
     // Método para obtener todos los usuarios (HTTP GET)
     @GetMapping("/usuarios")

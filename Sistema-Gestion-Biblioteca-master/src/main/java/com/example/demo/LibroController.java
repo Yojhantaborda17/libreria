@@ -87,12 +87,19 @@ public ResponseEntity<String> eliminarLibro(@PathVariable int id) {
     }
 }
 
-    // Obtener libro por título
-    @GetMapping("/libros/{titulo}")
-    @ResponseBody
-    public ResponseEntity<Libros> obtenerLibroPorTitulo(@PathVariable String titulo) {
-        Optional<Libros> libro = LibroRepository.findByTitulo(titulo);
-        return libro.map(ResponseEntity::ok).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+ // Obtener libro por título, ignorando mayúsculas y minúsculas
+ @GetMapping("/libros/titulo/{titulo}")
+ public ResponseEntity<Libros> obtenerLibroPorTitulo(@PathVariable String titulo) {
+     // Busca el libro por título, ignorando diferencias entre mayúsculas y minúsculas
+     Optional<Libros> libro = LibroRepository.findByTitulo(titulo);
+
+     // Si se encuentra el libro, lo devuelve con el estado 200 OK
+     if (libro.isPresent()) {
+         return new ResponseEntity<>(libro.get(), HttpStatus.OK);
+     } else {
+         // Si no se encuentra, devuelve un estado 404 NOT FOUND
+         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+     }
     }
 }
 
